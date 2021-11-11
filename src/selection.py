@@ -1,5 +1,5 @@
 import random
-from global_variables import SEED
+from GLOBAL import SEED
 
 def select_tournament(population, tournament_size):
     new_offspring = []

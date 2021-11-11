@@ -1,6 +1,7 @@
 import random
 import numpy as np
-from global_variables import SEED
+from GLOBAL import SEED
+
 class Rectangle:
 
 
@@ -21,14 +22,12 @@ class Rectangle:
 
 # Creates rectangles of width (10,50) and height (10,75)
 def generate_rectangles(number_of_rectangles):
-
-
         #Use seed only for debug
         #np.random.seed(SEED)
 
-        return [Rectangle(np.random.randint(10,51),np.random.randint(10,76),i) for i in range(number_of_rectangles)]
+    return [Rectangle(np.random.randint(10,51),np.random.randint(10,76),i) for i in range(number_of_rectangles)]
 
 
-def generate_ractangles_fixed(n,values):
+def generate_N_ractangles(n, values):
 
     return [Rectangle(values[i][0], values[i][1], i) for i in range(n)]

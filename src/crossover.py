@@ -1,6 +1,6 @@
 import random
 from math import nan
-from global_variables import SEED
+from GLOBAL import SEED
 import numpy as np
 
 from individual import Individual

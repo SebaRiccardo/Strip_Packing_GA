@@ -1,20 +1,20 @@
 import random
 import numpy as np
 
-from rectangle import generate_rectangles
+from rectangle import generate_N_ractangles
 from selection import select_tournament
 from crossover import crossover
 from mutate import mutate
-from population import create_starting_population_NFDH
-from fitness import calculate_fitness_NFDH
+from population import create_starting_population
+from fitness import calculate_fitness
 from utils import generate_stack_of_strips_NFDH, get_best_individual, get_average_fitness, calculate_best_individual_values_NFDH
 from plotting import plot_result, plot_rectangles
 
-from global_variables import W, POPULATION_SIZE, MAX_GENERATIONS, MUTATION_PROBABILITY, \
-    CROSS_OVER_PROBABILITY, FOLDER_NFDH, TOURNAMENT_SIZE,RECTANGLES_NUMBER
+from GLOBAL import W, POPULATION_SIZE, MAX_GENERATIONS, MUTATION_PROBABILITY, \
+    CROSS_OVER_PROBABILITY,TOURNAMENT_SIZE,RECTANGLES_NUMBER
 
 
-def main(number_of_rectangles, genes):
+def GA(number_of_rectangles, genes):
     solutions = []
     best_individuals = []
     best_fitness_acc = []
@@ -24,7 +24,7 @@ def main(number_of_rectangles, genes):
     set_of_rectangles = generate_rectangles(number_of_rectangles)
 
     # Start inicial population
-    population = create_starting_population_NFDH(POPULATION_SIZE, set_of_rectangles, genes)
+    population = create_starting_population(POPULATION_SIZE, set_of_rectangles, genes)
 
     # Calculates the best and average for que starting population
     best_initial_individual = get_best_individual(population)
@@ -55,7 +55,7 @@ def main(number_of_rectangles, genes):
         for ind1, ind2 in zip(selected[::2], selected[1::2]):
             # random.seed(1)
             if random.random() < CROSS_OVER_PROBABILITY:
-                children = crossover(ind1.gene_list, ind2.gene_list, set_of_rectangles, calculate_fitness_NFDH)
+                children = crossover(ind1.gene_list, ind2.gene_list, set_of_rectangles, calculate_fitness)
                 crossed_offspring.append(children[0])
                 crossed_offspring.append(children[1])
             else:
@@ -66,7 +66,7 @@ def main(number_of_rectangles, genes):
         for ind in crossed_offspring:
             # random.seed(1)
             if random.random() < MUTATION_PROBABILITY:
-                mutated.append(mutate(ind.gene_list, set_of_rectangles, number_of_rectangles, calculate_fitness_NFDH))
+                mutated.append(mutate(ind.gene_list, set_of_rectangles, number_of_rectangles, calculate_fitness))
             else:
                 mutated.append(ind)
 
@@ -95,34 +95,13 @@ def main(number_of_rectangles, genes):
 
     # Print and save the plots
     #if MAX_GENERATIONS <= 1000:
-    for c in range(MAX_GENERATIONS):
-        plot_rectangles(set_of_rectangles, solutions[c], best_individuals[c], best_fitness_acc[c], c, W, FOLDER_NFDH)
+   # for c in range(MAX_GENERATIONS):
+    #    plot_rectangles(set_of_rectangles, solutions[c], best_individuals[c], best_fitness_acc[c], c, W, FOLDER_NFDH)
 
 if __name__ == '__main__':
-    rectangles = generate_rectangles(RECTANGLES_NUMBER)
-    """
-    #genes =[7, 8, 17, 5, 13, 16, 9, 18, 19, 2, 0, 15, 4, 11, 6, 14, 12, 10, 3, 1]
-    genes = [10, 7, 5, 17, 18, 12, 3, 0, 1, 15, 14, 19, 8, 2, 13, 4, 11, 9, 6, 16]
-    
-    for i in range(MAX_GENERATIONS):
-        fitness =calculate_fitness_NFDH(genes,rectangles,100)
-        stack =generate_stack_of_strips_NFDH(genes,rectangles, 100)
-        print("---------",i)
-        print(fitness)
-        #print(genes)
-        print(stack)
-    #plot_rectangles(rectangles, stack, genes, fitness, 0, 100, FOLDER_NFDH)
+    data = [(37,11),(26,68),(25,75),(24,17),(20,73),(30,28),(12,35),(25,47)]
+    rectangles = generate_N_ractangles(len(data),data)
 
-    for rec in rectangles:
-        print(rec)
-
-
-    population = create_starting_population_NFDH(POPULATION_SIZE, rectangles, np.arange(RECTANGLES_NUMBER))
-
-    for ind in population:
-      mutated = mutate(ind.gene_list,rectangles,RECTANGLES_NUMBER,calculate_fitness_NFDH)
-
-      print("Original ", ind)
-      print("Mutated ", mutated)
-    """
-    main(RECTANGLES_NUMBER, np.arange(RECTANGLES_NUMBER))
+    population = create_starting_population(POPULATION_SIZE, rectangles, np.arange(len(data)),calculate_fitness)
+    for p in population:
+        print(p)

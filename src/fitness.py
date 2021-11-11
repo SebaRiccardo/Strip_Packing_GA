@@ -56,7 +56,7 @@ def calculate_fitness_FFDH(gene_list, rectangles, max_strip_width):
     return sum_of_max_heights
 
 # Calculates fitness baseD on
-def calculate_fitness_NFDH(gene_list, rectangles, max_strip_width):
+def calculate_fitness(gene_list, rectangles, max_strip_width):
 
         list_of_strips = []
         strip = np.array([])

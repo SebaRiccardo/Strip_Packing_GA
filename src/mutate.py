@@ -1,6 +1,6 @@
 
 from individual import Individual
-from global_variables import SEED
+from GLOBAL import SEED
 import numpy as np
 
 

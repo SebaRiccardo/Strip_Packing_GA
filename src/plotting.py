@@ -3,7 +3,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import os
 from utils import max_height
-from global_variables import RECTANGLES_NUMBER
+from GLOBAL import RECTANGLES_NUMBER
 import matplotlib._color_data as mcd
 
 def plot_result(best_fitness,generation_number,folder,type):

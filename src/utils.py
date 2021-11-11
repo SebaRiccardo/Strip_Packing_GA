@@ -1,6 +1,7 @@
 
 import numpy as np
-from global_variables import  W
+from GLOBAL import  W
+from math import floor,ceil
 #Calculates the maximun height in a strip
 def max_height(elements,rectangles):
     heigts = []
@@ -9,6 +10,21 @@ def max_height(elements,rectangles):
     return max(heigts)
 
 
+#Generates an array of ones and zeros
+def array_of_ones_and_zeros(chromosome_length,seed):
+
+    #np.random.seed(seed)
+    #number of ones in the list
+    number_of_ones = np.random.randint(0,(ceil(chromosome_length/2)+1))
+    #array of zeros
+    array_zeros = np.zeros(chromosome_length)
+    #add ones from 0 to number of ones
+    array_zeros[0:number_of_ones] =1
+    #shuffle that shit
+    np.random.shuffle(array_zeros)
+
+    return array_zeros
+
 #fitness best and average
 def get_best_individual(population):
     return min(population, key = lambda ind: ind.fitness)
@@ -16,12 +32,12 @@ def get_best_individual(population):
 def get_average_fitness(population):
     return sum([i.fitness for i in population]) / len(population)
 
+
 def strip_width(elements,rectangles,W):
     total =0
     for e in elements:
         total = total+ rectangles[e].width
     return W-total
-
 
 def generate_stack_of_strips_FFDH(gene_list, rectangles,max_strip_width):
     stack_of_strips = []
@@ -71,7 +87,6 @@ def generate_stack_of_strips_FFDH(gene_list, rectangles,max_strip_width):
 
     return stack_of_strips
 
-
 def generate_stack_of_strips_NFDH(gene_list, rectangles,max_strip_width):
     list_of_strips =[]
     strip = []
@@ -97,7 +112,6 @@ def generate_stack_of_strips_NFDH(gene_list, rectangles,max_strip_width):
     list_of_strips.append(strip)
 
     return list_of_strips
-
 
 def calculate_best_individual_values_NFDH(population,rectangles):
 
