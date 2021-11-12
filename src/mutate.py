@@ -1,10 +1,10 @@
 
-from individual import Individual
+from population import create_individual
 from GLOBAL import SEED
 import numpy as np
 
 
-def mutate(genes, rectangles, rectangles_number, fitness_function):
+def mutate(genes, rectangles, rectangles_number, fitness_function, it_rotates):
     #np.random.seed(SEED)
     indexA = 0
     indexB = 0
@@ -19,6 +19,5 @@ def mutate(genes, rectangles, rectangles_number, fitness_function):
     geneA = newGenes[indexA]
     newGenes[indexA] = newGenes[indexB]
     newGenes[indexB] = geneA
+    return create_individual(newGenes, rectangles, fitness_function, it_rotates)
 
-    newIndividual = Individual(newGenes, rectangles, fitness_function)
-    return newIndividual

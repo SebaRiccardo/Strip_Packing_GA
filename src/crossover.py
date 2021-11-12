@@ -4,6 +4,7 @@ from GLOBAL import SEED
 import numpy as np
 
 from individual import Individual
+from population import create_individual
 
 
 def crossover_order(p1, p2):
@@ -36,8 +37,9 @@ def crossover_order(p1, p2):
     return [[x + zero_shift for x in c1], [x + zero_shift for x in c2]]
 
 
-def crossover(genes_ind1, genes_ind2, rectangles, fitness_function):
+def crossover(genes_ind1, genes_ind2, rectangles, fitness_function, it_rotates):
 
-    offspring_genes = crossover_order(genes_ind1,genes_ind2)
-    return [Individual(offspring_genes[0], rectangles, fitness_function),
-            Individual(offspring_genes[1], rectangles, fitness_function)]
+    offspring_genes = crossover_order(genes_ind1, genes_ind2)
+    return[create_individual(offspring_genes[0], rectangles, fitness_function, it_rotates),
+           create_individual(offspring_genes[1], rectangles, fitness_function, it_rotates)]
+
