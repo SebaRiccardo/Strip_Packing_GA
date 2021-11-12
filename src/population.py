@@ -25,7 +25,7 @@ def create_individual(genes, rectangles, fitness_fuction, it_rotates):
     else:
         rotation_list = np.zeros(len(genes))
     # A list of rectangles are passed down to each Individual to calculate its fitness
-    return Individual(list(gene_list), rotation_list, rectangles, fitness_fuction,it_rotates)
+    return Individual(list(genes), rotation_list, rectangles, fitness_fuction,it_rotates)
 
 def create_starting_population(population_size, rectangles, genes, fitness_fuction, it_rotates):
 

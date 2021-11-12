@@ -1,7 +1,7 @@
 import random
 import numpy as np
 from os import chdir
-from rectangle import generate_N_ractangles
+from rectangle import generate_N_ractangles,generate_rectangles
 from selection import select_tournament
 from crossover import crossover
 from mutate import mutate
@@ -108,7 +108,7 @@ def GA(number_of_rectangles, genes,it_rotates):
     #    plot_rectangles(set_of_rectangles, solutions[c], best_individuals[c], best_fitness_acc[c], c, W, FOLDER_NFDH)
 
 if __name__ == '__main__':
-    data = [(37,11),(26,68),(25,75),(24,17),(20,73),(30,28),(12,35),(25,47),(10,30),(30,50)]
+    data = [(50,25),(50,25),(30,60),(30,60)]
     rectangles = generate_N_ractangles(len(data),data)
     it_rotates = True
 

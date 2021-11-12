@@ -18,7 +18,7 @@ def plot_result(best_fitness,generation_number,folder,type):
     plt.show()
 
 def add_text_below(fig,individual,rectangles,it_rotates,initY,initX,items_count,colums_count,default_color):
-    x_off_set = .34
+    x_off_set = .18
     y = initY
     x = initX
     items = 0
@@ -99,21 +99,21 @@ def plot_rectangles(rectangles,stack,individual,generation_number,max_strip_widt
             rx, ry = rectangle.get_xy()
             cx = rx + rectangle.get_width() / 2.0
             cy = ry + rectangle.get_height() / 2.0
-            ax.annotate(i, (cx, cy), color='black', weight='normal', fontsize=10, ha='center', va='center')
+            ax.annotate(str("R"+str(i)), (cx, cy), color='black', weight='normal', fontsize=10, ha='center', va='center')
 
         Yaxis +=  max_height(strip,rectangles,individual.rotation,it_rotates)
         ax.axhline(y=Yaxis,linewidth=.5,color='#d62728')
 
+    #add legend with rectangles info below the graphic
     add_text_below(fig,individual,rectangles,it_rotates,-0.07,.02,3,3,"black")
 
-
-    plt.xlabel("Generation: "+str(generation_number) + str(individual))
+    plt.xlabel("Generation: "+ str(generation_number) + " "+str(individual))
     plt.ylabel("Height")
     plt.axis([0,max_strip_width,0,Yaxis])
     #plt.xlim([0, max_strip_width])
     #plt.ylim([0, Yaxis])
     dir = os.getcwd()
     # save the figure
-    plt.savefig(dir+"\%s\generation%a.png" % (folder,generation_number), dpi=200, bbox_inches='tight')
+    plt.savefig(dir+"\%s\generation_%a.png" % (folder,generation_number), dpi=200, bbox_inches='tight')
     #plt.show()
     plt.close(fig)
