@@ -17,10 +17,43 @@ def plot_result(best_fitness,generation_number,folder,type):
     plt.savefig(dir+"\%s\%s.png" % (folder,type), dpi=100, bbox_inches='tight')
     plt.show()
 
+def add_text_below(fig,individual,rectangles,it_rotates,initY,initX,items_count,colums_count,default_color):
+    x_off_set = .34
+    y = initY
+    x = initX
+    items = 0
+    row_height = 0
+    colums = 0
+    color = default_color
+    for rec in rectangles:
+        # if rectangle rotates it's printed in red color
+        if it_rotates and individual.rotation[rec.number] == 1:
+            color = "red"
+        else:
+            color = "black"
+
+        fig.text(x, y, rec, color=color)
+
+        items += 1
+        y = y - .04
+
+        if items == items_count:
+            # new item added
+            items = 0
+            colums += 1
+            row_height = y
+            y = initY
+            x = x + x_off_set
+
+        if colums == colums_count:
+            # start adding new items below the first row of items
+            colums = 0
+            x = initX
+            y = row_height - .02
+            initY = y
+
 def plot_rectangles(rectangles,stack,individual,generation_number,max_strip_width,folder,it_rotates,subtitle):
-
     fig = plt.figure()
-
     ax = fig.add_subplot()
     fig.suptitle(subtitle)
 
@@ -71,27 +104,12 @@ def plot_rectangles(rectangles,stack,individual,generation_number,max_strip_widt
         Yaxis +=  max_height(strip,rectangles,individual.rotation,it_rotates)
         ax.axhline(y=Yaxis,linewidth=.5,color='#d62728')
 
-    y = -.07
-    x = .034
-    sum = 0
-    color = "black"
-    for rec in rectangles:
-         #if rectangle rotates it is printed in color red
-         if it_rotates and individual.rotation[rec.number] == 1:
-            color="red"
-         else:
-             color="black"
+    add_text_below(fig,individual,rectangles,it_rotates,-0.07,.02,3,3,"black")
 
-         fig.text(x,y,rec,color=color)
-         sum +=1
-         y = y - .04
-         if sum == 5:
-            y= -.07
-            x = x + .34
 
-    plt.xlabel("Generation: "+str(generation_number) +" Individual: "+ str(individual))
+    plt.xlabel("Generation: "+str(generation_number) + str(individual))
     plt.ylabel("Height")
-    plt.axis([0,max_strip_width,0,300])
+    plt.axis([0,max_strip_width,0,Yaxis])
     #plt.xlim([0, max_strip_width])
     #plt.ylim([0, Yaxis])
     dir = os.getcwd()
