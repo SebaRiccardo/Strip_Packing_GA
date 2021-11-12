@@ -18,13 +18,13 @@ def max_height(elements,rectangles,rotation_list,it_rotates):
 def array_of_ones_and_zeros(chromosome_length,seed):
 
     #np.random.seed(seed)
-    #number of ones in the list
+    # number of ones in the list
     number_of_ones = np.random.randint(0,(ceil(chromosome_length/2)+1))
-    #array of zeros
+    # array of zeros
     array_zeros = np.zeros(chromosome_length)
-    #add ones from 0 to number of ones
+    # add ones from 0 to number of ones
     array_zeros[0:number_of_ones] =1
-    #shuffle that shit
+    # shuffle that shit
     np.random.shuffle(array_zeros)
 
     return array_zeros

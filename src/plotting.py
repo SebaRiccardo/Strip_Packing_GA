@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 import os
 from utils import max_height
 from GLOBAL import RECTANGLES_NUMBER
@@ -17,7 +18,8 @@ def plot_result(best_fitness,generation_number,folder,type):
     plt.savefig(dir+"\%s\%s.png" % (folder,type), dpi=100, bbox_inches='tight')
     plt.show()
 
-def add_text_below(fig,individual,rectangles,it_rotates,initY,initX,items_count,colums_count,default_color):
+def add_text_below(individual,rectangles,it_rotates,initY,initX,items_count,colums_count,default_color):
+    fig = plt.figure()
     x_off_set = .18
     y = initY
     x = initX
@@ -33,7 +35,6 @@ def add_text_below(fig,individual,rectangles,it_rotates,initY,initX,items_count,
             color = "black"
 
         fig.text(x, y, rec, color=color)
-
         items += 1
         y = y - .04
 
@@ -51,9 +52,9 @@ def add_text_below(fig,individual,rectangles,it_rotates,initY,initX,items_count,
             x = initX
             y = row_height - .02
             initY = y
+    return fig
+def plot_rectangles(fig,rectangles,stack,individual,generation_number,max_strip_width,folder,it_rotates,subtitle):
 
-def plot_rectangles(rectangles,stack,individual,generation_number,max_strip_width,folder,it_rotates,subtitle):
-    fig = plt.figure()
     ax = fig.add_subplot()
     fig.suptitle(subtitle)
 
@@ -104,16 +105,27 @@ def plot_rectangles(rectangles,stack,individual,generation_number,max_strip_widt
         Yaxis +=  max_height(strip,rectangles,individual.rotation,it_rotates)
         ax.axhline(y=Yaxis,linewidth=.5,color='#d62728')
 
-    #add legend with rectangles info below the graphic
-    add_text_below(fig,individual,rectangles,it_rotates,-0.07,.02,3,3,"black")
-
-    plt.xlabel("Generation: "+ str(generation_number) + " "+str(individual))
     plt.ylabel("Height")
-    plt.axis([0,max_strip_width,0,Yaxis])
-    #plt.xlim([0, max_strip_width])
-    #plt.ylim([0, Yaxis])
+    plt.xlabel("Width")
+    fig.text(0.02,-0.02,"Generation: " + str(generation_number) + " " + str(individual))
+   # plt.axis([0,max_strip_width,0,Yaxis])
+    plt.xlim([0, max_strip_width])
+    plt.ylim([0, Yaxis])
+
     dir = os.getcwd()
+
     # save the figure
     plt.savefig(dir+"\%s\generation_%a.png" % (folder,generation_number), dpi=200, bbox_inches='tight')
     #plt.show()
     plt.close(fig)
+
+
+def generate_animation(images):
+    frames = []
+
+
+    for image in images:
+        im = image.imshow()
+        frames.append([im])
+    ani = animation.ArtistAnimation(fig,frames)
+    ani.save("generations.mp4")
