@@ -117,7 +117,7 @@ def plot_rectangles(fig,rectangles,stack,individual,generation_number,max_strip_
 
     # save the figure
     plt.savefig(dir+"\%s\generation_%a.png" % (folder,generation_number), dpi=200, bbox_inches='tight')
-    #plt.show()
+    plt.show()
     plt.close(fig)
 
 def plot_individual_info(individual,W,rectangles,RESULTS_FOLDER,it_rotates):
@@ -157,12 +157,10 @@ def print_individual(generation,best_individual,rotation,solution,fitness):
     print("Solution: ", solution)
     print("Fitness: ", fitness)
 
-def generate_animation(images):
-    frames = []
-
-
-    for image in images:
-        im = image.imshow()
-        frames.append([im])
-    ani = animation.ArtistAnimation(fig,frames)
-    ani.save("generations.mp4")
+def plot_stats(fit_avg, fit_best, fit_best_ever, title):
+    plt.plot(fit_avg, label = "Average Fitness of Generation")
+    plt.plot(fit_best, label = "Best Fitness of Generation")
+    plt.plot(fit_best_ever, label = "Best Fitness Ever")
+    plt.title(title)
+    plt.legend(loc = "upper right")
+    plt.show()

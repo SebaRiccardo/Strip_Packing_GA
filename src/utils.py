@@ -1,7 +1,7 @@
 
 import numpy as np
 from math import floor,ceil
-
+import os
 #Calculates the maximun height in a strip
 def max_height(elements,rectangles,rotation_list,it_rotates):
     heigts = []
@@ -80,23 +80,23 @@ def get_best_individual(population):
 def get_average_fitness(population):
     return sum([i.fitness for i in population]) / len(population)
 
-def stats(population, rectangles, max_width, best_ind,average_fitness,  it_rotates):
+def stats(population, rectangles, max_width, best_ind, best_fitness, average_fitness, best_fitness_ever, it_rotates):
 
     # Best individual for the current generation
     best_of_generation = get_best_individual(population)
 
-    if best_ind.fitness < best_of_generation.fitness:
-        best_ind = best_of_generation
+    # checks if the current best is better that the best ever
+    if best_ind.fitness > best_of_generation.fitness:
+       best_ind = best_of_generation
 
-    best_fitness = best_one.fitness
-
+    best_fitness.append(best_of_generation.fitness)
     average_fitness.append(get_average_fitness(population))
+    best_fitness_ever.append(min(best_fitness+best_fitness_ever))
+    stack_of_strips = generate_stack_of_strips(best_of_generation.gene_list,best_of_generation.rotation, rectangles, max_width, it_rotates)
 
-    stack_of_strips = generate_stack_of_strips(best_one.get_gene_list(),best_one.get_rotation(), rectangles, max_width, it_rotates)
-    best_genes = best_one.get_gene_list()
-    rotation = best_one.get_rotation()
 
-    return best_genes,best_fitness,average_fitness,stack_of_strips, rotation
+    return best_ind, best_of_generation, best_fitness, average_fitness, best_fitness_ever, stack_of_strips
+
 
 def get_values_from_files(file_name):
     # navigate to the folder where the txt files are located

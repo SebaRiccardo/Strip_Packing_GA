@@ -23,7 +23,7 @@ def create_random_individual(genes, max_width, rectangles, fitness_fuction, it_r
 def create_starting_population(population_size, max_width, rectangles, genes, fitness_fuction, it_rotates,seed):
 
 
-    population= np.array([create_random_individual(genes, max_width, rectangles, fitness_fuction,it_rotates,_) for _ in range(population_size)])
+    population= np.array([create_random_individual(genes, max_width, rectangles, fitness_fuction,it_rotates,_ + seed) for _ in range(population_size)])
 
     return population
 #creates a individual with a genes list. this function is used in mutation and crossover
