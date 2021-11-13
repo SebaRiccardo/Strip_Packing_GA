@@ -53,6 +53,7 @@ def add_text_below(individual,rectangles,it_rotates,initY,initX,items_count,colu
             y = row_height - .02
             initY = y
     return fig
+
 def plot_rectangles(fig,rectangles,stack,individual,generation_number,max_strip_width,folder,it_rotates,subtitle):
 
     ax = fig.add_subplot()
@@ -119,6 +120,18 @@ def plot_rectangles(fig,rectangles,stack,individual,generation_number,max_strip_
     #plt.show()
     plt.close(fig)
 
+def plot_individual_info(W,set_of_rectangles,initial_best_genes,initial_best_fitness,initial_rotation,initial_average_fitness,initial_stack_of_strips,RESULTS_FOLDER,it_rotates):
+    print("-------RECTANGLES----------")
+    for rec in set_of_rectangles:
+        print(rec)
+    print("-----------------------------------------------------")
+    print("Best Initial individual: ", initial_best_genes)
+    print("Best Initial Fitness: ", initial_best_fitness)
+    print("Rotation: ", initial_rotation)
+    print("Initial population Average fitness: ", initial_average_fitness)
+    print("Solution: ", initial_stack_of_strips)
+    print("-----------------------------------------------------")
+    plot_rectangles(set_of_rectangles, initial_stack_of_strips, initial_best_genes, initial_best_fitness, "initial", W,RESULTS_FOLDER, it_rotates)
 
 def generate_animation(images):
     frames = []

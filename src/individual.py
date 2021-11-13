@@ -1,12 +1,10 @@
 
-from GLOBAL import W
-
 class Individual:
 
-    def __init__(self, gene_list, rotation, rectangles, fitness_fuction,it_rotates):
+    def __init__(self, gene_list, rotation, max_width, rectangles, fitness_function, it_rotates):
         self.gene_list = gene_list
         self.rotation = rotation
-        self.fitness = fitness_fuction(self.gene_list, self.rotation, rectangles, W,it_rotates)
+        self.fitness = fitness_function(self.gene_list, self.rotation, rectangles, max_width, it_rotates)
 
     def __str__(self):
         return "Chromosome: " + str(self.gene_list) + " Fitness: " + str(self.fitness) + " Rotation: " + str(self.rotation)

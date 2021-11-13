@@ -8,12 +8,11 @@ from crossover import crossover
 from mutate import mutate
 from population import create_starting_population
 from fitness import calculate_fitness
-from utils import generate_stack_of_strips, get_best_individual, get_average_fitness, calculate_best_individual_values
-from plotting import plot_result, plot_rectangles,generate_animation,add_text_below
-from GLOBAL import W, POPULATION_SIZE, MAX_GENERATIONS, MUTATION_PROBABILITY, \
-    CROSS_OVER_PROBABILITY,TOURNAMENT_SIZE,RECTANGLES_NUMBER,RESULTS_FOLDER
+from utils import generate_stack_of_strips, get_best_individual, get_average_fitness, calculate_best_individual_values,get_values_from_files
+from plotting import plot_result, plot_rectangles,generate_animation,add_text_below,plot_individual_info
+from GLOBAL import POPULATION_SIZE, MAX_GENERATIONS, MUTATION_PROBABILITY, CROSS_OVER_PROBABILITY,TOURNAMENT_SIZE,RESULTS_FOLDER
 
-def GA(number_of_rectangles, genes,it_rotates):
+def GA(number_of_rectangles, values, W, genes, it_rotates):
     solutions = []
     best_individuals = []
     best_fitness_acc = []
@@ -24,23 +23,14 @@ def GA(number_of_rectangles, genes,it_rotates):
     set_of_rectangles = generate_N_ractangles(number_of_rectangles,values)
 
     # Start inicial population
-    population = create_starting_population(POPULATION_SIZE, set_of_rectangles, genes,calculate_fitness,it_rotates)
+    population = create_starting_population(POPULATION_SIZE, W, set_of_rectangles, genes,calculate_fitness,it_rotates)
 
     # Calculates the best and average for que starting population
     initial_best_genes, initial_best_fitness, initial_average_fitness, initial_stack_of_strips, initial_rotation = calculate_best_individual_values(population,set_of_rectangles,it_rotates)
 
-    print("-------RECTANGLES----------")
-    for rec in set_of_rectangles:
-        print(rec)
-
-    print("-----------------------------------------------------")
-    print("Best Initial individual: ", initial_best_genes)
-    print("Best Initial Fitness: ", initial_best_fitness)
-    print("Rotation: ",initial_rotation)
-    print("Initial population Average fitness: ", initial_average_fitness)
-    print("Solution: ", initial_stack_of_strips)
-    print("-----------------------------------------------------")
-    plot_rectangles(set_of_rectangles, initial_stack_of_strips, initial_best_genes,initial_best_fitness, "initial", W, RESULTS_FOLDER,it_rotates)
+    # Print the info of the first individual
+    plot_individual_info(W, set_of_rectangles, initial_best_genes, initial_best_fitness, initial_rotation,
+                             initial_average_fitness, initial_stack_of_strips, RESULTS_FOLDER, it_rotates)
 
     for generation_number in range(MAX_GENERATIONS):
 
@@ -72,7 +62,7 @@ def GA(number_of_rectangles, genes,it_rotates):
         population = mutated
 
         # all values for the best individual in each generation
-        best_genes, best_fitness, average_fitness, stack_of_strips, rotation = calculate_best_individual_values(population, set_of_rectangles, it_rotates)
+        best_genes, best_fitness, average_fitness, stack_of_strips, rotation = calculate_best_individual_values(population, W, set_of_rectangles, it_rotates)
 
         # best individual's genes
         best_individuals.append(best_genes)
@@ -99,9 +89,6 @@ def GA(number_of_rectangles, genes,it_rotates):
         print("Rotation: ", rotations_acc[j])
         print("Solution: ", solutions[j])
         print("Fitness: ", best_fitness_acc[j])
-
-
-
 
 def test():
     data = [(50, 25), (50, 25), (30, 60), (30, 60)]
@@ -131,32 +118,35 @@ if __name__ == '__main__':
         "I5": "spp12.txt",
         "I6": "spp13.txt",
     }
-    # navigate to the folder where the txt files are located
-    os.chdir("../")
-    os.chdir("./instances")
-
-    dir = os.getcwd()
-    file = open(dir + "\\" + instances["I1"], "r")
-
-    number_of_rectangles = 10
-    genes = np.arange(number_of_rectangles)
     options = {
         "rotation": 0
     }
-
     print("1. STRIP PACKING GA WITH ROTATION ")
     print("2. STRIP PACKING GA WITHOUT ROTATION")
     value= input("->:")
     options["rotation"]  = int(value)
+
     while options["rotation"]!= 1 and options["rotation"]!= 2:
         print("Choose a valid option,please:")
         print("1. STRIP PACKING GA WITH ROTATION ")
         print("2. STRIP PACKING GA WITHOUT ROTATION")
         options["rotation"] =int(input(""))
 
+    # navigate to the folder where the txt files are located
+    os.chdir("../")
+    os.chdir("./instances")
+    dir = os.getcwd()
+    file = open(dir + "\\" + instances["I1"], "r")
+
+
+    number_of_rectangles,rectangles_values,max_width = get_values_from_files(file)
+
+    W = max_width
+    genes = np.arange(number_of_rectangles) #e.g: [0,1,2,3,4,5,6 ... (number_of_rectangles-1)]
+
     if options["rotation"] == 1:
         # with rotation
-        GA(number_of_rectangles, genes, True)
+        GA(number_of_rectangles, rectangles_values, W ,genes, True)
     else:
         # without rotation
-        GA(number_of_rectangles, genes, False)
+        GA(number_of_rectangles, rectangles_values, W ,genes, False)

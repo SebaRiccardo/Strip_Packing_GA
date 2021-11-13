@@ -1,6 +1,5 @@
 
 import numpy as np
-from GLOBAL import  W
 from math import floor,ceil
 
 #Calculates the maximun height in a strip
@@ -78,14 +77,31 @@ def generate_stack_of_strips(gene_list, rotation_list, rectangles, max_strip_wid
 
     return list_of_strips
 
-def calculate_best_individual_values(population, rectangles, it_rotates):
+def calculate_best_individual_values(population, max_width, rectangles, it_rotates):
 
     # Best individual for the current generation
     best_one = get_best_individual(population)
     best_fitness = best_one.fitness
     average_fitness = get_average_fitness(population)
-    stack_of_strips = generate_stack_of_strips(best_one.get_gene_list(),best_one.get_rotation(), rectangles, W, it_rotates)
+    stack_of_strips = generate_stack_of_strips(best_one.get_gene_list(),best_one.get_rotation(), rectangles, max_width, it_rotates)
     best_genes = best_one.get_gene_list()
     rotation = best_one.get_rotation()
 
     return best_genes,best_fitness,average_fitness,stack_of_strips, rotation
+
+def get_values_from_files(file):
+
+    lines = file.readlines()
+    trimmed_lines= np.char.strip(lines, chars="\n")
+
+    # in de index 0 we have the W of the instance
+    max_width = int(trimmed_lines[0])
+    values =trimmed_lines[1:]
+    rectangles_values = []
+    #values = ['4 15','15 3' ... ,'10 3']
+    for value in values:
+       dimensions=np.array(value.split()) # value= "2 10" that correspond to the width and the height of one rectangle.
+       dimensions= dimensions.astype(int) # so we split it and assign it to an array called dimensions = [2,10] and convert each element to integer
+       rectangles_values.append(tuple(dimensions))
+
+    return len(rectangles_values) , rectangles_values , max_width

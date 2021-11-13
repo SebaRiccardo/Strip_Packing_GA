@@ -4,7 +4,7 @@ from GLOBAL import SEED
 import numpy as np
 
 
-def mutate(genes, rectangles, rectangles_number, fitness_function, it_rotates):
+def mutate(genes, max_width, rectangles, rectangles_number, fitness_function, it_rotates):
     #np.random.seed(SEED)
     indexA = 0
     indexB = 0
@@ -19,5 +19,5 @@ def mutate(genes, rectangles, rectangles_number, fitness_function, it_rotates):
     geneA = newGenes[indexA]
     newGenes[indexA] = newGenes[indexB]
     newGenes[indexB] = geneA
-    return create_individual(newGenes, rectangles, fitness_function, it_rotates)
+    return create_individual(newGenes, max_width,rectangles, fitness_function, it_rotates)
 
