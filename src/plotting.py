@@ -3,7 +3,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import os
-from utils import max_height
+from utils import max_height,generate_stack_of_strips,get_average_fitness
 from GLOBAL import RECTANGLES_NUMBER
 import matplotlib._color_data as mcd
 
@@ -120,18 +120,42 @@ def plot_rectangles(fig,rectangles,stack,individual,generation_number,max_strip_
     #plt.show()
     plt.close(fig)
 
-def plot_individual_info(W,set_of_rectangles,initial_best_genes,initial_best_fitness,initial_rotation,initial_average_fitness,initial_stack_of_strips,RESULTS_FOLDER,it_rotates):
+def plot_individual_info(individual,W,rectangles,RESULTS_FOLDER,it_rotates):
+
+    initial_stack_of_strips = generate_stack_of_strips(individual.gene_list,individual.rotation,rectangles,W,it_rotates)
+
+    if it_rotates:
+        subtitle = "GAr"
+    else:
+        subtitle = "GAnr"
+
+    fig = add_text_below(individual, rectangles, it_rotates, -0.07, .02, 3, 3, "black")
+
+    plot_rectangles(fig, rectangles, initial_stack_of_strips, individual, "initial", W, RESULTS_FOLDER, it_rotates,subtitle)
+
+def print_best_individual(individual,average_fitness,rectangles,W,it_rotates):
+
+    stack_of_strips = generate_stack_of_strips(individual.gene_list, individual.rotation, rectangles, W,it_rotates)
+
     print("-------RECTANGLES----------")
-    for rec in set_of_rectangles:
+    for rec in rectangles:
         print(rec)
     print("-----------------------------------------------------")
-    print("Best Initial individual: ", initial_best_genes)
-    print("Best Initial Fitness: ", initial_best_fitness)
-    print("Rotation: ", initial_rotation)
-    print("Initial population Average fitness: ", initial_average_fitness)
-    print("Solution: ", initial_stack_of_strips)
+    print("Best Initial individual: ", individual.gene_list)
+    print("Best Initial Fitness: ", individual.fitness)
+    print("Rotation: ", individual.rotation)
+    print("Initial population Average fitness: ", average_fitness)
+    print("Solution: ", stack_of_strips)
     print("-----------------------------------------------------")
-    plot_rectangles(set_of_rectangles, initial_stack_of_strips, initial_best_genes, initial_best_fitness, "initial", W,RESULTS_FOLDER, it_rotates)
+
+def print_individual(generation,best_individual,rotation,solution,fitness):
+
+    print(" -- ")
+    print("Generation: ", generation)
+    print("Best individual: ", best_individual)
+    print("Rotation: ", rotation)
+    print("Solution: ", solution)
+    print("Fitness: ", fitness)
 
 def generate_animation(images):
     frames = []

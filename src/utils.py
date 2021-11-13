@@ -44,12 +44,9 @@ def strip_width(elements,rectangles,W):
 def generate_stack_of_strips(gene_list, rotation_list, rectangles, max_strip_width,it_rotates):
     list_of_strips =[]
     strip = []
-    sum_of_widths = 0;
+    space_used = 0;
 
     for i in gene_list:
-
-        rectangle_width = 0
-        rectangle_height = 0
 
         if it_rotates and rotation_list[i] == 1:
             # rectangle rotates 90 degrees
@@ -60,20 +57,26 @@ def generate_stack_of_strips(gene_list, rotation_list, rectangles, max_strip_wid
             rectangle_height = rectangles[i].height
 
         # la regla dice que el ancho de los rectangulos no pueden ser masyor a  W
-        if max_strip_width <= (sum_of_widths + rectangle_width):
-            aux = strip
-            # ya complete un strip porque si agrego el proximo supera el W =100
-            list_of_strips.append(aux)
-            strip =[]
-            # sumo el ancho del nuevo rectangulo en el strip nuevo
-            sum_of_widths = rectangle_width
+        if max_strip_width <= (space_used + rectangle_width):
+
+            if len(strip) == 0 and rectangle_width == max_strip_width:
+                list_of_strips.append([i])
+            else:
+                if len(strip) == 0 and rectangle_width < max_strip_width:
+                    strip.append(i)
+                else:
+                    list_of_strips.append(strip.copy())
+                    strip = []
+                    strip.append(i)
+
+            # because we are in a new strip the space used is equal to the only rectangle's width in it. this being the value of rectangle_width
+            space_used = rectangle_width
         else:
-            sum_of_widths = sum_of_widths + rectangle_width
+            # accumulates the widths of the rectangles of one strip because it's lower than W and there is still space left.
+            space_used = space_used + rectangle_width
+            strip.append(i)
 
-        strip.append(i)
-
-    # Lista de strips donde en cada strip estan los triangulos.
-    list_of_strips.append(strip)
+    list_of_strips.append(strip.copy())
 
     return list_of_strips
 
@@ -89,9 +92,16 @@ def calculate_best_individual_values(population, max_width, rectangles, it_rotat
 
     return best_genes,best_fitness,average_fitness,stack_of_strips, rotation
 
-def get_values_from_files(file):
+def get_values_from_files(file_name):
+    # navigate to the folder where the txt files are located
+    os.chdir("../")
+    os.chdir("./instances")
+    dir = os.getcwd()
+    file = open(dir + "\\" + file_name, "r")
+    os.chdir("../")
 
     lines = file.readlines()
+    file.close()
     trimmed_lines= np.char.strip(lines, chars="\n")
 
     # in de index 0 we have the W of the instance
