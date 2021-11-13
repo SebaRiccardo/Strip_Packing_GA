@@ -28,13 +28,6 @@ def array_of_ones_and_zeros(chromosome_length,seed):
 
     return array_zeros
 
-#fitness best and average
-def get_best_individual(population):
-    return min(population, key = lambda ind: ind.fitness)
-
-def get_average_fitness(population):
-    return sum([i.fitness for i in population]) / len(population)
-
 def strip_width(elements,rectangles,W):
     total =0
     for e in elements:
@@ -80,12 +73,25 @@ def generate_stack_of_strips(gene_list, rotation_list, rectangles, max_strip_wid
 
     return list_of_strips
 
-def calculate_best_individual_values(population, max_width, rectangles, it_rotates):
+#fitness best and average
+def get_best_individual(population):
+    return min(population, key = lambda ind: ind.fitness)
+
+def get_average_fitness(population):
+    return sum([i.fitness for i in population]) / len(population)
+
+def stats(population, rectangles, max_width, best_ind,average_fitness,  it_rotates):
 
     # Best individual for the current generation
-    best_one = get_best_individual(population)
+    best_of_generation = get_best_individual(population)
+
+    if best_ind.fitness < best_of_generation.fitness:
+        best_ind = best_of_generation
+
     best_fitness = best_one.fitness
-    average_fitness = get_average_fitness(population)
+
+    average_fitness.append(get_average_fitness(population))
+
     stack_of_strips = generate_stack_of_strips(best_one.get_gene_list(),best_one.get_rotation(), rectangles, max_width, it_rotates)
     best_genes = best_one.get_gene_list()
     rotation = best_one.get_rotation()

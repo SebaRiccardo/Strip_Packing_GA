@@ -8,7 +8,7 @@ from crossover import crossover
 from mutate import mutate
 from population import create_starting_population
 from fitness import calculate_fitness
-from utils import generate_stack_of_strips, get_best_individual, get_average_fitness, calculate_best_individual_values,get_values_from_files
+from utils import generate_stack_of_strips, get_best_individual, get_average_fitness, stats,get_values_from_files
 from plotting import plot_result, plot_rectangles,generate_animation,add_text_below,plot_individual_info,print_individual,print_best_individual
 from GLOBAL import POPULATION_SIZE, MAX_GENERATIONS, MUTATION_PROBABILITY, CROSS_OVER_PROBABILITY,TOURNAMENT_SIZE,RESULTS_FOLDER
 
@@ -19,6 +19,8 @@ def GA(number_of_rectangles, values, W, genes, it_rotates,seed):
     average_fitness_acc = []
     rotations_acc =[]
 
+    random.seed(seed)
+
     # Generate reference rectangle list
     set_of_rectangles = generate_N_ractangles(number_of_rectangles,values)
 
@@ -26,25 +28,23 @@ def GA(number_of_rectangles, values, W, genes, it_rotates,seed):
     population = create_starting_population(POPULATION_SIZE, W, set_of_rectangles, genes, calculate_fitness, it_rotates,seed)
 
     # gets the initial best individual and average fitness
-    best_one = get_best_individual(population)
+    best_ind = get_best_individual(population)
     average_fitness = get_average_fitness(population)
+    best_fitness = best_ind.fitness
+    best_fitness_ever =
+    best_ind = random.choice(population)
 
     # prints the best individual
-    print_best_individual(best_one, average_fitness, set_of_rectangles, W, it_rotates)
-
-    # Print the info of the first individual
+    #print_best_individual(best_one, average_fitness, set_of_rectangles, W, it_rotates)
+    # Plot the info of the first individual
     #plot_individual_info(best_one,W, set_of_rectangles,RESULTS_FOLDER, it_rotates)
 
     for generation_number in range(MAX_GENERATIONS):
-
         # SELECTION
         selected = select_tournament(population, TOURNAMENT_SIZE)
-
         # CROSSOVER
         crossed_offspring = []
-
         for ind1, ind2 in zip(selected[::2], selected[1::2]):
-            # random.seed(1)
             if random.random() < CROSS_OVER_PROBABILITY:
                 children = crossover(ind1.gene_list, ind2.gene_list, max_width, set_of_rectangles, calculate_fitness,it_rotates)
                 crossed_offspring.append(children[0])
@@ -54,18 +54,15 @@ def GA(number_of_rectangles, values, W, genes, it_rotates,seed):
                 crossed_offspring.append(ind2)
         # MUTATION
         mutated = []
-
         for ind in crossed_offspring:
-            # random.seed(1)
             if random.random() < MUTATION_PROBABILITY:
                 mutated.append(mutate(ind.gene_list, max_width, set_of_rectangles, number_of_rectangles, calculate_fitness,it_rotates))
             else:
                 mutated.append(ind)
-
-        population = mutated
+        population = mutated.copy()
 
         # all values for the best individual in each generation
-        best_genes, best_fitness, average_fitness, stack_of_strips, rotation = calculate_best_individual_values(population, W, set_of_rectangles, it_rotates)
+        best_genes, best_fitness, average_fitness_acc, stack_of_strips, rotation = stats(population, set_of_rectangles,W, best_ind, average_fitness_acc , t_rotates)
 
         # best individual's genes
         best_individuals.append(best_genes)
@@ -73,8 +70,6 @@ def GA(number_of_rectangles, values, W, genes, it_rotates,seed):
         # best individual's fitness
         best_fitness_acc.append(best_fitness)
 
-        # average fitness
-        average_fitness_acc.append(average_fitness)
 
         # individual's rotation list
         rotations_acc.append(rotation)
@@ -82,6 +77,7 @@ def GA(number_of_rectangles, values, W, genes, it_rotates,seed):
         # solution
         solutions.append(stack_of_strips)
 
+    return
     #for j in range(MAX_GENERATIONS):
     #    print_individual(j, best_individuals[j], rotations_acc[j], solutions[j], best_fitness_acc[j])
 
@@ -151,9 +147,9 @@ if __name__ == '__main__':
         print("Choose a valid option,please:")
         print("1. STRIP PACKING GA WITH ROTATION ")
         print("2. STRIP PACKING GA WITHOUT ROTATION")
-        options["rotation"] =int(input(""))
+        options["rotation"] = int(input(""))
 
-   """     
+    """     
     if options["rotation"] == 1:
         # with rotation
         #test2(generate_N_ractangles(number_of_rectangles,rectangles_values))
@@ -161,4 +157,4 @@ if __name__ == '__main__':
     else:
         # without rotation
         GA(number_of_rectangles, rectangles_values, W ,genes, False,0)
-   """
+    """
