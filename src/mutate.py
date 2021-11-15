@@ -5,18 +5,18 @@ import numpy as np
 
 def mutate(genes, max_width, rectangles, rectangles_number, fitness_function, seed, it_rotates):
     np.random.seed(seed)
-    indexA = 0
-    indexB = 0
+    index_a = np.random.randint(0, rectangles_number)
+    index_b = np.random.randint(0, rectangles_number)
 
     # checks if the indexes are the same
-    while indexA == indexB:
-        indexA = np.random.randint(0, rectangles_number)
-        indexB = np.random.randint(0, rectangles_number)
+    while index_a == index_b:
+        index_a = np.random.randint(0, rectangles_number)
+        index_b = np.random.randint(0, rectangles_number)
 
     # swap values at indexA and indexB A y B
-    newGenes = np.copy(genes)
-    geneA = newGenes[indexA]
-    newGenes[indexA] = newGenes[indexB]
-    newGenes[indexB] = geneA
-    return create_individual(newGenes, max_width,rectangles, fitness_function, seed, it_rotates)
+    new_genes = np.copy(genes)
+    gene_a = new_genes[index_a]
+    new_genes[index_a] = new_genes[index_b]
+    new_genes[index_b] = gene_a
+    return create_individual(new_genes, max_width,rectangles, fitness_function, seed, it_rotates)
 

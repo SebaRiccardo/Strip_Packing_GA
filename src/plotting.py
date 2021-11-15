@@ -58,7 +58,7 @@ def add_text_below(individual,rectangles,it_rotates,initY,initX,items_count,colu
     return fig
 
 def generate_plots(fig, rectangles, stack, individual, max_strip_width, it_rotates, subtitle):
-
+    #fig = plt.figure()
     ax = fig.add_subplot()
     fig.suptitle(subtitle)
     prevIndex = -1
@@ -165,7 +165,7 @@ def plot_individual_info(individual,W,rectangles,RESULTS_FOLDER,it_rotates,file_
     else:
         subtitle = "GAnr"
 
-    fig = add_text_below(individual, rectangles, it_rotates, -0.07, .02, 3, 3, "black")
+    fig = add_text_below(individual, rectangles, it_rotates, -0.07, .02, 4, 4, "black")
 
     plt = generate_plots(fig, rectangles, initial_stack_of_strips, individual, W,it_rotates, subtitle)
     save_plot(plt,file_name)
