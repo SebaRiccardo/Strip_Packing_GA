@@ -1,6 +1,6 @@
 import random
 import numpy as np
-from GLOBAL import SEED
+
 
 class Rectangle:
 

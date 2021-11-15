@@ -1,13 +1,11 @@
 import random
 from math import nan
-from GLOBAL import SEED
-import numpy as np
 
 from population import create_individual
 
 
-def crossover_order(p1, p2):
-    #random.seed(SEED)
+def crossover_order(p1, p2, seed):
+    random.seed(seed)
     zero_shift = min(p1)
     length = len(p1)
     start, end = sorted([random.randrange(length) for _ in range(2)])
@@ -36,9 +34,9 @@ def crossover_order(p1, p2):
     return [[x + zero_shift for x in c1], [x + zero_shift for x in c2]]
 
 
-def crossover(genes_ind1, genes_ind2, max_width, rectangles, fitness_function, it_rotates):
+def crossover(genes_ind1, genes_ind2, max_width, rectangles, fitness_function, seed, it_rotates):
 
-    offspring_genes = crossover_order(genes_ind1, genes_ind2)
-    return[create_individual(offspring_genes[0], max_width, rectangles, fitness_function, it_rotates),
-           create_individual(offspring_genes[1], max_width, rectangles, fitness_function, it_rotates)]
+    offspring_genes = crossover_order(genes_ind1, genes_ind2, seed)
+    return[create_individual(offspring_genes[0], max_width, rectangles, fitness_function, seed, it_rotates),
+           create_individual(offspring_genes[1], max_width, rectangles, fitness_function, seed, it_rotates)]
 

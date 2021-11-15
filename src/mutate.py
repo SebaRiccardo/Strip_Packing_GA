@@ -1,14 +1,13 @@
 
 from population import create_individual
-from GLOBAL import SEED
 import numpy as np
 
 
-def mutate(genes, max_width, rectangles, rectangles_number, fitness_function, it_rotates):
-    #np.random.seed(SEED)
+def mutate(genes, max_width, rectangles, rectangles_number, fitness_function, seed, it_rotates):
+    np.random.seed(seed)
     indexA = 0
     indexB = 0
-    newGenes = []
+
     # checks if the indexes are the same
     while indexA == indexB:
         indexA = np.random.randint(0, rectangles_number)
@@ -19,5 +18,5 @@ def mutate(genes, max_width, rectangles, rectangles_number, fitness_function, it
     geneA = newGenes[indexA]
     newGenes[indexA] = newGenes[indexB]
     newGenes[indexB] = geneA
-    return create_individual(newGenes, max_width,rectangles, fitness_function, it_rotates)
+    return create_individual(newGenes, max_width,rectangles, fitness_function, seed, it_rotates)
 

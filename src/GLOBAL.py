@@ -7,9 +7,17 @@
 
 RECTANGLES_NUMBER = 15
 RESULTS_FOLDER = "results"
-SEED = 100
-TOURNAMENT_SIZE = 3
+TOURNAMENT_SIZE = 2
 POPULATION_SIZE = 50
-MAX_GENERATIONS = 100
+MAX_GENERATIONS = 10
 MUTATION_PROBABILITY = .1
 CROSS_OVER_PROBABILITY = .65
+
+instances = {
+        "Instance 1": "spp9a.txt",
+        "Instance 2": "spp9b.txt",
+        "Intances 3": "spp10.txt",
+        "Intances 4": "spp11.txt",
+        "Intances 5": "spp12.txt",
+        "Intances 6": "spp13.txt"
+    }

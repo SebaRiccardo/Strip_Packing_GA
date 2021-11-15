@@ -1,7 +1,11 @@
 
 import numpy as np
 from math import floor,ceil
+from numpy.ma import median
+from numpy import mean,std
 import os
+from rectangle import generate_N_ractangles
+
 #Calculates the maximun height in a strip
 def max_height(elements,rectangles,rotation_list,it_rotates):
     heigts = []
@@ -16,7 +20,7 @@ def max_height(elements,rectangles,rotation_list,it_rotates):
 #Generates an array of ones and zeros
 def array_of_ones_and_zeros(chromosome_length,seed):
 
-    #np.random.seed(seed)
+    np.random.seed(seed)
     # number of ones in the list
     number_of_ones = np.random.randint(0,(ceil(chromosome_length/2)+1))
     # array of zeros
@@ -92,11 +96,10 @@ def stats(population, rectangles, max_width, best_ind, best_fitness, average_fit
     best_fitness.append(best_of_generation.fitness)
     average_fitness.append(get_average_fitness(population))
     best_fitness_ever.append(min(best_fitness+best_fitness_ever))
-    stack_of_strips = generate_stack_of_strips(best_of_generation.gene_list,best_of_generation.rotation, rectangles, max_width, it_rotates)
+    #stack_of_strips = generate_stack_of_strips(best_of_generation.gene_list,best_of_generation.rotation, rectangles, max_width, it_rotates)
 
 
-    return best_ind, best_of_generation, best_fitness, average_fitness, best_fitness_ever, stack_of_strips
-
+    return best_ind, best_of_generation, best_fitness, average_fitness, best_fitness_ever
 
 def get_values_from_files(file_name):
     # navigate to the folder where the txt files are located
@@ -105,6 +108,7 @@ def get_values_from_files(file_name):
     dir = os.getcwd()
     file = open(dir + "\\" + file_name, "r")
     os.chdir("../")
+    os.chdir("./src")
 
     lines = file.readlines()
     file.close()
@@ -121,3 +125,37 @@ def get_values_from_files(file_name):
        rectangles_values.append(tuple(dimensions))
 
     return len(rectangles_values) , rectangles_values , max_width
+
+def calculate_stats_per_instance(individuals,number_of_rectangles, rectangles_values, max_width, it_rotates):
+
+    best_ind = get_best_individual(individuals)
+    rectangles =generate_N_ractangles(number_of_rectangles,rectangles_values)
+    stack = generate_stack_of_strips(best_ind.gene_list, best_ind.rotation, rectangles, max_width,it_rotates)
+
+    solution = best_ind
+
+    best_fitness = best_ind.fitness
+    fitness_list = [i.fitness for i in individuals]
+    fitness_list.sort(key=lambda fitness:fitness)
+
+    fit_mean = mean(fitness_list)
+    fit_median = median(fitness_list)
+    stard_deviation = std(fitness_list)
+
+    return fit_median, fit_mean, best_fitness, stard_deviation, solution, stack
+
+
+def save_to_file(statics,algorithm_type):
+
+    os.chdir("../")
+    os.chdir("./results")
+    dir = os.getcwd()
+    for key,value in statics.items():
+        f = open("Results_"+algorithm_type+"_"+key+".txt" , "w")
+        f.write("--------------------RESULTS "+ str(algorithm_type) +"-----------------------\n\r")
+        for key,value in value.items():
+
+            f.write("- "+str(key) +": "+str(value)+"\n\r")
+        f.write("---------------------------------------------------")
+        f.close()
+    return 1
