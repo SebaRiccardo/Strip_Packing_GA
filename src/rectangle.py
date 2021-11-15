@@ -20,9 +20,9 @@ class Rectangle:
 
 
 # Creates rectangles of width (10,50) and height (10,75)
-def generate_rectangles(number_of_rectangles):
+def generate_rectangles(number_of_rectangles,seed):
         #Use seed only for debug
-        #np.random.seed(SEED)
+    np.random.seed(seed)
     return [Rectangle(np.random.randint(10,51),np.random.randint(10,76),i) for i in range(number_of_rectangles)]
 
 

@@ -8,7 +8,7 @@ from rectangle import generate_N_ractangles
 from GLOBAL import RECTANGLES_NUMBER,instances
 import matplotlib._color_data as mcd
 
-def plot_result(best_fitness,generation_number,folder,type):
+def plot_result(best_fitness,generation_number,type):
     generations_list =np.arange(1,generation_number+1)
     plt.plot(best_fitness)
 
@@ -16,8 +16,10 @@ def plot_result(best_fitness,generation_number,folder,type):
     plt.ylabel(type)
     # save the figure
     dir = os.getcwd()
-    plt.savefig(dir+"\%s\%s.png" % (folder,type), dpi=100, bbox_inches='tight')
+    plt.savefig(dir+"\%s.png" % (folder,type), dpi=100, bbox_inches='tight')
     plt.show()
+
+# all fun that are used to plot the results
 
 def add_text_below(individual,rectangles,it_rotates,initY,initX,items_count,colums_count,default_color):
     fig = plt.figure()
@@ -55,11 +57,10 @@ def add_text_below(individual,rectangles,it_rotates,initY,initX,items_count,colu
             initY = y
     return fig
 
-def plot_rectangles(fig, rectangles, stack, individual, number, max_strip_width, folder, it_rotates, subtitle, caption):
+def generate_plots(fig, rectangles, stack, individual, max_strip_width, it_rotates, subtitle):
 
     ax = fig.add_subplot()
     fig.suptitle(subtitle)
-
     prevIndex = -1
     colors = [name for name in mcd.CSS4_COLORS
                if "xkcd:" + name in mcd.XKCD_COLORS]
@@ -109,32 +110,53 @@ def plot_rectangles(fig, rectangles, stack, individual, number, max_strip_width,
 
     plt.ylabel("Height")
     plt.xlabel("Width")
-    fig.text(0.02, -0.02, caption + str(number) + " " + str(individual))
+    fig.text(0.02, -0.02, "Ind: " + str(individual))
    # plt.axis([0,max_strip_width,0,Yaxis])
     plt.xlim([0, max_strip_width])
     plt.ylim([0, Yaxis])
 
-    dir = os.getcwd()
+    return plt
 
-    # save the figure
-    plt.savefig(dir +"\%s\plot_file_%s.png" % (folder, str(number) + subtitle), dpi=200, bbox_inches='tight')
+def show_plot(plt):
     plt.show()
-    plt.close(fig)
+    plt.close()
+
+def save_plot(plt,filename):
+
+    dir = os.getcwd()
+    # save the figure
+    plt.savefig(dir+"\%s.png" % (filename), dpi=200, bbox_inches='tight')
+    plt.close()
+
+def plot_all_instance_solutions(statistics):
+
+    # statistics = [GAr_statistics , GAnr_statistics]
+    rotate = [True , False]
+    title = ["Genetic Algorithm with rotation","Genetic Algorithm with NO rotation"]
+    title_index = 0
+    for stats in statistics: # iterates over the first statistics of GA with rotation and then without rotation
+
+        for key, value in stats.items():
+            number_of_rectangles, rectangles_values, max_width = get_values_from_files(str(instances[key]))
+            rectangles = generate_N_ractangles(number_of_rectangles,rectangles_values)
+            #plot rectangles assumes that you are in the folder /Strip_Packing_GA
+            # so we have to go up from src to results
+            os.chdir("../")
+            os.chdir("./results")
+            ind = value["solution"]
+            stack = value["stack"]
+            # Instance 1 GAr/ GAnr
+            subtitle = title[title_index]+" "+str(key)
+            fig = add_text_below(ind, rectangles, rotate[title_index], -0.07, .02, 4, 4, "black")
+            plt = generate_plots(fig, rectangles, stack, ind, max_width, rotate[title_index], subtitle)
+
+            save_plot(plt,subtitle)
+            show_plot(plt)
 
 
-def plot_stack_of_rectangles(ind,stack,it_rotates,index,subtitle,caption):
-    for key, value in instances.items():
-        number_of_rectangles, rectangles_values, max_width = get_values_from_files(value)
-        rectangles = generate_N_ractangles(number_of_rectangles,rectangles_values)
-    #plot rectangles assumes that you are in the folder /Strip_Packing_GA
-    # so we have to go up from src to results
-    os.chdir("../")
-    fig = add_text_below(ind, rectangles, it_rotates, -0.07, .02, 3, 3, "black")
-    plot_rectangles(fig, rectangles, stack, ind, index, max_width, "results", it_rotates, subtitle,caption)
-    os.chdir("./src")
+        title_index =+1 #this is used to iterate over title = ["Genetic Algorithm with rotation","Genetic Algorithm with NO rotation"]
 
-
-def plot_individual_info(individual,W,rectangles,RESULTS_FOLDER,it_rotates):
+def plot_individual_info(individual,W,rectangles,RESULTS_FOLDER,it_rotates,file_name):
 
     initial_stack_of_strips = generate_stack_of_strips(individual.gene_list,individual.rotation,rectangles,W,it_rotates)
 
@@ -145,7 +167,10 @@ def plot_individual_info(individual,W,rectangles,RESULTS_FOLDER,it_rotates):
 
     fig = add_text_below(individual, rectangles, it_rotates, -0.07, .02, 3, 3, "black")
 
-    plot_rectangles(fig, rectangles, initial_stack_of_strips, individual, "initial", W, RESULTS_FOLDER, it_rotates,subtitle)
+    plt = generate_plots(fig, rectangles, initial_stack_of_strips, individual, W,it_rotates, subtitle)
+    save_plot(plt,file_name)
+    show_plot(plt)
+
 
 def print_best_individual(individual,average_fitness,rectangles,W,it_rotates):
 
@@ -168,13 +193,13 @@ def print_individual(generation,best_individual,rotation,solution,fitness):
     print("Solution: ", solution)
     print("Fitness: ", fitness)
 
-def plot_stats(fit_avg, fit_best, fit_best_ever, title,folder):
+def plot_stats(fit_avg, fit_best, fit_best_ever, title):
     plt.plot(fit_avg, label = "Average Fitness of Generation")
     plt.plot(fit_best, label = "Best Fitness of Generation")
     plt.plot(fit_best_ever, label = "Best Fitness Ever")
     plt.title(title)
     plt.legend(loc = "upper right")
     dir = os.getcwd()
-    #plt.savefig(dir + "\%s\result_%s.png" % (folder, title), dpi=200, bbox_inches='tight')
-    #plt.show()
+    plt.savefig(dir + "\stats_%s.png" % (title), dpi=200, bbox_inches='tight')
+    plt.show()
     plt.close()
