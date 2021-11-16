@@ -198,6 +198,8 @@ def plot_stats(fit_avg, fit_best, fit_best_ever, title):
     plt.plot(fit_best, label = "Best Fitness of Generation")
     plt.plot(fit_best_ever, label = "Best Fitness Ever")
     plt.title(title)
+    plt.xlabel("Generations")
+    plt.ylabel("Height")
     plt.legend(loc = "upper right")
     dir = os.getcwd()
     plt.savefig(dir + "\stats_%s.png" % (title), dpi=200, bbox_inches='tight')
