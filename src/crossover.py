@@ -1,10 +1,11 @@
 import random
 from math import nan
-
 from population import create_individual
+import copy
 
 
-def crossover_order(p1, p2, seed):
+def order_crossover(p1, p2, seed):
+
     random.seed(seed)
     zero_shift = min(p1)
     length = len(p1)
@@ -34,9 +35,19 @@ def crossover_order(p1, p2, seed):
     return [[x + zero_shift for x in c1], [x + zero_shift for x in c2]]
 
 
-def crossover(genes_ind1, genes_ind2, max_width, rectangles, fitness_function, seed, it_rotates):
+def crossover_one_point(p1, p2,seed):
+    random.seed(seed)
+    point = random.randint(1, len(p1) - 1)
+    c1, c2 = copy.deepcopy(p1), copy.deepcopy(p2)
+    c1[point:], c2[point:] = p2[point:], p1[point:]
+    return [c1, c2]
 
-    offspring_genes = crossover_order(genes_ind1, genes_ind2, seed)
-    return[create_individual(offspring_genes[0], max_width, rectangles, fitness_function, seed, it_rotates),
-           create_individual(offspring_genes[1], max_width, rectangles, fitness_function, seed, it_rotates)]
+
+def crossover(ind1, ind2, max_width, rectangles, fitness_function, seed, it_rotates):
+
+    offspring_genes = order_crossover(ind1.gene_list, ind2.gene_list, seed)
+    offspring_rotation = crossover_one_point(ind1.rotation, ind2.rotation, seed)
+
+    return[create_individual(offspring_genes[0], offspring_rotation[0], max_width, rectangles, fitness_function, seed, it_rotates),
+           create_individual(offspring_genes[1], offspring_rotation[1],  max_width, rectangles, fitness_function, seed, it_rotates)]
 

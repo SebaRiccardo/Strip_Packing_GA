@@ -30,7 +30,7 @@ def array_of_ones_and_zeros(chromosome_length,seed):
     # shuffle that shit
     np.random.shuffle(array_zeros)
 
-    return array_zeros
+    return list(array_zeros.astype(int))
 
 def strip_width(elements,rectangles,W):
     total =0
@@ -84,6 +84,8 @@ def get_best_individual(population):
 def get_average_fitness(population):
     return sum([i.fitness for i in population]) / len(population)
 
+def get_worst_individual(population):
+    return max(population, key=lambda ind: ind.fitness)
 def stats(population, rectangles, max_width, best_ind, best_fitness, average_fitness, best_fitness_ever, it_rotates):
 
     # Best individual for the current generation
@@ -129,12 +131,14 @@ def get_values_from_files(file_name):
 def calculate_stats_per_instance(individuals,number_of_rectangles, rectangles_values, max_width, it_rotates):
 
     best_ind = get_best_individual(individuals)
+    worst_ind = get_worst_individual(individuals)
     rectangles =generate_N_ractangles(number_of_rectangles,rectangles_values)
     stack = generate_stack_of_strips(best_ind.gene_list, best_ind.rotation, rectangles, max_width,it_rotates)
 
     solution = best_ind
 
     best_fitness = best_ind.fitness
+    worst_fitness = worst_ind.fitness
     fitness_list = [i.fitness for i in individuals]
     fitness_list.sort(key=lambda fitness:fitness)
 
@@ -142,20 +146,30 @@ def calculate_stats_per_instance(individuals,number_of_rectangles, rectangles_va
     fit_median = median(fitness_list)
     stard_deviation = std(fitness_list)
 
-    return fit_median, fit_mean, best_fitness, stard_deviation, solution, stack
+    return fit_median, fit_mean, best_fitness,worst_fitness, stard_deviation, solution, stack
 
 
-def save_to_file(statics,algorithm_type):
+def save_to_file(statics,algorithm_type,folder):
 
     os.chdir("../")
     os.chdir("./results")
     dir = os.getcwd()
     for key,value in statics.items():
-        f = open("Results_"+algorithm_type+"_"+key+".txt" , "w")
-        f.write("--------------------RESULTS "+ str(algorithm_type) +"-----------------------\n\r")
+        f = open(folder+"/Results_"+algorithm_type+"_"+key+".txt" , "w")
+        f.write("--------------------RESULTS "+ str(algorithm_type)+" - "+key+"-----------------------\n\r")
         for key,value in value.items():
 
             f.write("- "+str(key) +": "+str(value)+"\n\r")
-        f.write("---------------------------------------------------")
+        f.write("---------------------------------------------------------------------------------")
         f.close()
+    return 1
+
+def print_stats(statics,algorithm_type):
+
+    for key, value in statics.items():
+        print("--------------------------------------"+key+"--------------------------------------")
+        print("--------------" + str(algorithm_type) + " - " + key + "--------------\n\r")
+        for key, value in value.items():
+            print("- " + str(key) + ": " + str(value) + "\n\r")
+        print("--------------------------------------<END>---------------------------------------")
     return 1
