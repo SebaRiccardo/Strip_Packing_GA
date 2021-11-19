@@ -1,0 +1,17 @@
+--------------------RESULTS Genetic Algorithm with rotation - Intances 6-----------------------
+- Runs: 20
+- Generations per run: 500
+- Population size: 50
+- Rectangles number: 13
+- Crossover probability: 0.65
+- Mutation probability: 0.1
+- Tournament size: 5
+- Median: 27.0
+- Mean: 27.25
+- Best fitness: 25
+- Worst fitness: 30
+- Standard deviation: 1.299038105676658
+- Individual: Chromosome: [1, 8, 4, 12, 2, 7, 0, 11, 3, 6, 9, 10, 5] Fitness: 25 Rotation: [0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1]
+- Solution: [[1, 8], [4], [12], [2, 7, 0], [11, 3], [6, 9, 10, 5]]
+- Execution time: 42.396013021469116
+---------------------------------------------------------------------------------
