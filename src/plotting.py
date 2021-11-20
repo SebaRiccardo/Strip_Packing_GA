@@ -3,7 +3,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import os
-from utils import max_height,generate_stack_of_strips,get_average_fitness,get_values_from_files
+from utils import max_height,generate_stack_of_strips,get_average_fitness,get_values_from_files,sort_by_height
 from rectangle import generate_N_ractangles
 from GLOBAL import RECTANGLES_NUMBER,instances
 import matplotlib._color_data as mcd
@@ -159,6 +159,7 @@ def plot_all_instance_solutions(statistics,folders):
 def plot_individual_info(individual,W,rectangles,RESULTS_FOLDER,it_rotates,file_name):
 
     initial_stack_of_strips = generate_stack_of_strips(individual.gene_list,individual.rotation,rectangles,W,it_rotates)
+
 
     if it_rotates:
         subtitle = "GAr  - "+file_name

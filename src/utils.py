@@ -77,6 +77,14 @@ def generate_stack_of_strips(gene_list, rotation_list, rectangles, max_strip_wid
 
     return list_of_strips
 
+def sort_by_height(list,rectangles):
+    sorted_list=[]
+    for row in list:
+       row.sort(key= lambda  i:i, reverse =True)
+       sorted_list.append(row)
+
+    return sorted_list
+
 #fitness best and average
 def get_best_individual(population):
     return min(population, key = lambda ind: ind.fitness)
@@ -86,6 +94,7 @@ def get_average_fitness(population):
 
 def get_worst_individual(population):
     return max(population, key=lambda ind: ind.fitness)
+
 def stats(population, rectangles, max_width, best_ind, best_fitness, average_fitness, best_fitness_ever, it_rotates):
 
     # Best individual for the current generation

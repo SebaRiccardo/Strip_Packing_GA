@@ -5,9 +5,9 @@
 # ej: num de rectangulos = 3 [1,2,3]  o [3,2,1] o [3,1,2]. Cualquiera sirve ya que despues np.permutation() permuta
 # y crea las distintas variantes de los genes
 
-RECTANGLES_NUMBER = 15
+RECTANGLES_NUMBER = 20
 RESULTS_FOLDER = "results"
-TOURNAMENT_SIZE = 5
+TOURNAMENT_SIZE = 2
 POPULATION_SIZE = 50
 MAX_GENERATIONS = 500
 MUTATION_PROBABILITY = .1
