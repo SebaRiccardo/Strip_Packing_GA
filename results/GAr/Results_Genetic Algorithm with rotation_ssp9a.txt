@@ -1,4 +1,4 @@
---------------------RESULTS Genetic Algorithm with rotation - Instance 1-----------------------
+--------------------RESULTS Genetic Algorithm with rotation - ssp9a-----------------------
 - Runs: 20
 - Generations per run: 500
 - Population size: 50
@@ -13,5 +13,5 @@
 - Standard deviation: 1.023474474522936
 - Individual: Chromosome: [6, 0, 1, 8, 5, 3, 2, 7, 4] Fitness: 23 Rotation: [1, 0, 0, 1, 0, 1, 0, 0, 0]
 - Solution: [[6], [0], [1], [8], [5], [3], [2, 7, 4]]
-- Execution time (seg): 28.60887837409973
+- Execution time (seg): 31.38129186630249
 ---------------------------------------------------------------------------------

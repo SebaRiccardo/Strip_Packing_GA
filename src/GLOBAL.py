@@ -15,10 +15,10 @@ CROSS_OVER_PROBABILITY = .65
 MAX_WIDTH = 100
 
 instances = {
-        "Instance 1": "spp9a.txt",
-        "Instance 2": "spp9b.txt",
-        "Intances 3": "spp10.txt",
-        "Intances 4": "spp11.txt",
-        "Intances 5": "spp12.txt",
-        "Intances 6": "spp13.txt"
+        "ssp9a": "spp9a.txt",
+        "spp9b": "spp9b.txt",
+        "ssp10": "spp10.txt",
+        "spp11": "spp11.txt",
+        "spp12": "spp12.txt",
+        "spp13": "spp13.txt"
     }
