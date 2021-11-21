@@ -9,15 +9,15 @@ RECTANGLES_NUMBER = 20
 RESULTS_FOLDER = "results"
 TOURNAMENT_SIZE = 2
 POPULATION_SIZE = 50
-MAX_GENERATIONS = 500
+MAX_GENERATIONS = 1000
 MUTATION_PROBABILITY = .1
 CROSS_OVER_PROBABILITY = .65
 MAX_WIDTH = 100
 
 instances = {
-        "ssp9a": "spp9a.txt",
+        "spp9a": "spp9a.txt",
         "spp9b": "spp9b.txt",
-        "ssp10": "spp10.txt",
+        "spp10": "spp10.txt",
         "spp11": "spp11.txt",
         "spp12": "spp12.txt",
         "spp13": "spp13.txt"
