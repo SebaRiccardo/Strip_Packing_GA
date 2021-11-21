@@ -124,8 +124,8 @@ def default_GA(number_of_rectangles, W, genes, it_rotates,seed,GENERATIONS,TOURN
 ##-----------------------------------<->--------------------------------------##
 
 #------ execution mode main flow--------#
-def experimental(number_of_runs):
-
+def experimental(number_of_runs,seed):
+    np.random.seed(seed)
     GAr_statistics = {}
     GAnr_statistics = {}
 
@@ -141,6 +141,7 @@ def experimental(number_of_runs):
 
         genes = np.arange(number_of_rectangles) # e.g: [0,1,2,3,4,5,6 ... (number_of_rectangles-1)]
         seeds = np.arange(number_of_runs) # seeds
+        np.random.shuffle(seeds)
         modes = [True,False]  # with rotation and without rotation
 
         #runs the GA in  mode rotation and mode no-rotation x number_of_runs
@@ -242,13 +243,13 @@ def default_mode_menu(options):
 
 def option_selector(opt1):
     print(opt1)
-    value = input("")
+    value = input("->")
     options = int(value)
 
-    while options < 0:
+    while options <= 0:
         print("Insert a valid value:")
         print(opt1)
-        value = input("")
+        value = input("->")
         options = int(value)
     return options
 
@@ -291,9 +292,10 @@ if __name__ == '__main__':
     if options["experimental"] == 1:
         runs = 20
         folders = ["GAr","GAnr"]
+        input_seed=option_selector("Insert a seed number: (s>=0)")
         #experimental mode
         start  = time.time()
-        GAr_statistics, GAnr_statistics = experimental(runs)
+        GAr_statistics, GAnr_statistics = experimental(runs,input_seed)
         end = time.time()
         EXECUTION_TIME = (end - start)
         if EXECUTION_TIME >= 60:
