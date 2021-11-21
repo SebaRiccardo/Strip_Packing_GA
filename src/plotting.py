@@ -184,25 +184,24 @@ def print_best_individual(individual,average_fitness,rectangles,W,it_rotates):
     print("Solution: ", stack_of_strips)
     print("-----------------------------------------------------")
 
-def print_individual(generation,best_individual,rotation,solution,fitness):
+def print_individual(best_individual,rotation,fitness):
 
-    print(" -- ")
-    print("Generation: ", generation)
-    print("Best individual: ", best_individual)
-    print("Rotation: ", rotation)
-    print("Solution: ", solution)
-    print("Fitness: ", fitness)
+    print("|  Chromosome: ", best_individual)
+    print("|  Rotation: ", rotation)
+    print("|  Fitness: ", fitness)
 
-def plot_stats(fit_avg, fit_best, fit_best_ever, it_rotates):
+def plot_stats(fit_avg, fit_best, fit_best_ever, it_rotates,TSIZE):
 
     if it_rotates:
         title = "GA with rotation"
     else:
         title = "GA with NO rotation"
+
     plt.plot(fit_avg, label = "Average Fitness of Generation")
     plt.plot(fit_best, label = "Best Fitness of Generation")
     plt.plot(fit_best_ever, label = "Best Fitness Ever")
     plt.title(title)
+    plt.suptitle("Tournament size: "+ str(TSIZE))
     plt.xlabel("Generations")
     plt.ylabel("Height")
     plt.legend(loc = "upper right")

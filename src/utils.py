@@ -95,7 +95,7 @@ def get_average_fitness(population):
 def get_worst_individual(population):
     return max(population, key=lambda ind: ind.fitness)
 
-def stats(population, rectangles, max_width, best_ind, best_fitness, best_fitness_ever):
+def stats(population, rectangles, max_width, best_ind, best_fitness, average_fitness, best_fitness_ever):
 
     # Best individual for the current generation
     best_of_generation = get_best_individual(population)
@@ -103,11 +103,23 @@ def stats(population, rectangles, max_width, best_ind, best_fitness, best_fitnes
     # checks if the current best is better that the best ever
     if best_ind.fitness > best_of_generation.fitness:
        best_ind = best_of_generation
-
+    average_fitness.append(get_average_fitness(population))
     best_fitness.append(best_of_generation.fitness)
     best_fitness_ever.append(min(best_fitness+best_fitness_ever))
     #stack_of_strips = generate_stack_of_strips(best_of_generation.gene_list,best_of_generation.rotation, rectangles, max_width, it_rotates)
 
+    return best_ind, best_of_generation, best_fitness, average_fitness, best_fitness_ever
+
+def stats_experimental(population, rectangles, max_width, best_ind, best_fitness, best_fitness_ever):
+    # Best individual for the current generation
+    best_of_generation = get_best_individual(population)
+
+    # checks if the current best is better that the best ever
+    if best_ind.fitness > best_of_generation.fitness:
+        best_ind = best_of_generation
+    best_fitness.append(best_of_generation.fitness)
+    best_fitness_ever.append(min(best_fitness + best_fitness_ever))
+    # stack_of_strips = generate_stack_of_strips(best_of_generation.gene_list,best_of_generation.rotation, rectangles, max_width, it_rotates)
 
     return best_ind, best_of_generation, best_fitness, best_fitness_ever
 
