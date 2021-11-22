@@ -1,0 +1,17 @@
+--------------------RESULTS Genetic Algorithm with NO rotation - spp9b-----------------------
+- Runs: 20
+- Generations per run: 1000
+- Population size: 50
+- Rectangles number: 9
+- Crossover probability: 0.65
+- Mutation probability: 0.1
+- Tournament size: 2
+- Median: 29.0
+- Mean: 29.0
+- Best fitness: 29
+- Worst fitness: 29
+- Standard deviation: 0.0
+- Individual: Chromosome: [6, 2, 7, 8, 1, 0, 5, 3, 4] Fitness: 29 Rotation: [0, 0, 0, 0, 0, 0, 0, 0, 0]
+- Solution: [[6, 2], [7, 8], [1], [0, 5, 3, 4]]
+- Execution time (seg): 47.38135528564453
+---------------------------------------------------------------------------------

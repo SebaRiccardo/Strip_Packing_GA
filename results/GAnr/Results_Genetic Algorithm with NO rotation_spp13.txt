@@ -1,0 +1,17 @@
+--------------------RESULTS Genetic Algorithm with NO rotation - spp13-----------------------
+- Runs: 20
+- Generations per run: 1000
+- Population size: 50
+- Rectangles number: 13
+- Crossover probability: 0.65
+- Mutation probability: 0.1
+- Tournament size: 2
+- Median: 31.0
+- Mean: 31.0
+- Best fitness: 31
+- Worst fitness: 31
+- Standard deviation: 0.0
+- Individual: Chromosome: [6, 2, 1, 8, 12, 4, 11, 0, 5, 10, 9, 3, 7] Fitness: 31 Rotation: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+- Solution: [[6, 2, 1, 8, 12, 4], [11, 0], [5, 10, 9], [3, 7]]
+- Execution time (seg): 55.2391459941864
+---------------------------------------------------------------------------------

@@ -1,0 +1,17 @@
+--------------------RESULTS Genetic Algorithm with rotation - spp11-----------------------
+- Runs: 20
+- Generations per run: 1000
+- Population size: 50
+- Rectangles number: 11
+- Crossover probability: 0.65
+- Mutation probability: 0.1
+- Tournament size: 2
+- Median: 26.0
+- Mean: 26.15
+- Best fitness: 25
+- Worst fitness: 28
+- Standard deviation: 0.5722761571129799
+- Individual: Chromosome: [5, 9, 6, 0, 2, 4, 3, 1, 10, 7, 8] Fitness: 25 Rotation: [0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0]
+- Solution: [[5, 9, 6, 0, 2], [4, 3, 1, 10], [7, 8]]
+- Execution time (seg): 53.58640003204346
+---------------------------------------------------------------------------------
