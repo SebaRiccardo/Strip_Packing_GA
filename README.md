@@ -6,7 +6,8 @@ The strip packing problem is a 2-dimensional geometric minimization problem. Giv
 Reporte técnico realizado para la materia optativa **Optimización de la Industria** de la carrera Ingeniería en Informática UNSL.
 
 
-``Primera pagina del reporte técnico.`` 
+A continuación se encuentra la primera pagina del reporte técnico. El reporte completo se encuentra en la carpeta ``/Technical report``
+
 ![Cover-1](https://user-images.githubusercontent.com/55523632/142952681-c1dd4874-9f01-4729-905b-de2ed696fe64.jpg)
 
 
